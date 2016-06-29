@@ -1,0 +1,61 @@
+----------
+auth_admin
+----------
+
+CREATE TABLE auth_admin (
+    id INT(11) AUTO_INCREMENT,
+    username VARCHAR(63) NOT NULL,
+    password VARCHAR(63) NOT NULL,
+    user_id VARCHAR(32) NOT NULL,
+    token VARCHAR(63) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY (user_id)
+)
+
+--------------
+articles_title
+--------------
+
+CREATE TABLE articles_title (
+    id INT(11) AUTO_INCREMENT,
+    title VARCHAR(254) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id)
+)
+
+----------------
+articles_content
+----------------
+
+CREATE TABLE articles_content (
+    id INT(11) AUTO_INCREMENT,
+    article_id INT(11) NOT NULL,
+    paragraph_number INT(11) NOT NULL,
+    text longtext,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY (article_id, paragraph_number),
+    FOREIGN KEY (article_id) REFERENCES articles_title (id)
+)
+
+----------------
+articles_comment
+----------------
+
+CREATE TABLE articles_comment (
+    id INT(11) AUTO_INCREMENT,
+    paragraph_id INT(11) NOT NULL,
+    text longtext,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (paragraph_id) REFERENCES articles_content (id)
+)
